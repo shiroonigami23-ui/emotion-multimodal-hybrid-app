@@ -1,0 +1,10 @@
+<div class="mini-card">
+  <svg width="76" height="76" viewBox="0 0 76 76" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="38" cy="38" r="34" fill="#5ad491" opacity="0.2"/>
+    <circle cx="38" cy="38" r="20" fill="none" stroke="#5ad491" stroke-width="4"/>
+    <circle cx="31" cy="34" r="2.8" fill="#d8fff0"/>
+    <circle cx="45" cy="34" r="2.8" fill="#d8fff0"/>
+    <path d="M30 45c2.8 3.2 6 4.8 8 4.8s5.2-1.6 8-4.8" stroke="#d8fff0" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+  </svg>
+  <p style="margin:6px 0 0 0;font-weight:600;">Face Branch</p>
+</div>

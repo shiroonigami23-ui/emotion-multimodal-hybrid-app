@@ -1,5 +1,11 @@
 # Emotion Multimodal Hybrid App
 
+[![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/)
+[![Streamlit](https://img.shields.io/badge/Streamlit-App-FF4B4B?logo=streamlit&logoColor=white)](https://streamlit.io/)
+[![Hugging%20Face%20Space](https://img.shields.io/badge/Hugging%20Face-Space-FFD21E?logo=huggingface&logoColor=black)](https://huggingface.co/spaces/ShiroOnigami23/emotion-multimodal-app)
+[![Model](https://img.shields.io/badge/HF-Model-8A2BE2)](https://huggingface.co/ShiroOnigami23/emotion-multimodal-engine)
+[![Android APK](https://img.shields.io/badge/Android-APK-3DDC84?logo=android&logoColor=white)](https://github.com/shiroonigami23-ui/emotion-multimodal-hybrid-app/releases)
+
 New standalone project built from your voice-emotion baseline concept, without modifying:
 
 - `emotion-voice-app` (GitHub)
@@ -16,6 +22,11 @@ Unified hybrid emotion detection with three modalities from one video clip:
 Final output is one fused emotion prediction from all three models working together.
 
 Emotion classes (expanded): `angry, calm, disgust, fear, happy, neutral, sad, surprise`
+
+## Live Demo
+
+- Hugging Face Space (connected app): https://huggingface.co/spaces/ShiroOnigami23/emotion-multimodal-app
+- Hugging Face model repo: https://huggingface.co/ShiroOnigami23/emotion-multimodal-engine
 
 ## Training (Kaggle)
 

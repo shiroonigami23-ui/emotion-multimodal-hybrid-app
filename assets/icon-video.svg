@@ -1,0 +1,9 @@
+<div class="mini-card">
+  <svg width="76" height="76" viewBox="0 0 76 76" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="38" cy="38" r="34" fill="#ffc857" opacity="0.2"/>
+    <rect x="17" y="24" width="34" height="28" rx="6" fill="none" stroke="#ffc857" stroke-width="4"/>
+    <path d="M33 31v14l11-7-11-7z" fill="#fff0cf"/>
+    <rect x="52" y="30" width="8" height="16" rx="2" fill="#ffc857"/>
+  </svg>
+  <p style="margin:6px 0 0 0;font-weight:600;">Video Branch</p>
+</div>

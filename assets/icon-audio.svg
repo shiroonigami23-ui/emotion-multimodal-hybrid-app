@@ -1,0 +1,9 @@
+<div class="mini-card">
+  <svg width="76" height="76" viewBox="0 0 76 76" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="38" cy="38" r="34" fill="#48a3ff" opacity="0.2"/>
+    <rect x="31" y="18" width="14" height="28" rx="7" fill="#48a3ff"/>
+    <path d="M22 35c0 10 7 18 16 18s16-8 16-18" stroke="#b7dbff" stroke-width="4" fill="none" stroke-linecap="round"/>
+    <path d="M38 53v10M29 63h18" stroke="#b7dbff" stroke-width="4" stroke-linecap="round"/>
+  </svg>
+  <p style="margin:6px 0 0 0;font-weight:600;">Audio Branch</p>
+</div>
