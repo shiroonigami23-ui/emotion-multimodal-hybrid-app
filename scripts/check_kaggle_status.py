@@ -1,11 +1,14 @@
 import subprocess
-
-
-KERNEL = "aryanchande23l/emotion-multimodal-hybrid-trainer-v1"
+import argparse
 
 
 def main():
-    cp = subprocess.run(["kaggle", "kernels", "status", KERNEL], capture_output=True, text=True, check=True)
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--owner", default="aryanchande23l")
+    parser.add_argument("--kernel", default="emotion-multimodal-hybrid-trainer-v1")
+    args = parser.parse_args()
+    kernel = f"{args.owner}/{args.kernel}"
+    cp = subprocess.run(["kaggle", "kernels", "status", kernel], capture_output=True, text=True, check=True)
     print(cp.stdout.strip())
 
 

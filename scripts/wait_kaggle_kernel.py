@@ -1,13 +1,10 @@
 import subprocess
 import time
+import argparse
 
-
-KERNEL = "aryanchande23l/emotion-multimodal-hybrid-trainer-v1"
-
-
-def get_status() -> str:
+def get_status(kernel: str) -> str:
     cp = subprocess.run(
-        ["kaggle", "kernels", "status", KERNEL],
+        ["kaggle", "kernels", "status", kernel],
         capture_output=True,
         text=True,
         check=True,
@@ -19,8 +16,13 @@ def get_status() -> str:
 
 
 def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--owner", default="aryanchande23l")
+    parser.add_argument("--kernel", default="emotion-multimodal-hybrid-trainer-v1")
+    args = parser.parse_args()
+    kernel = f"{args.owner}/{args.kernel}"
     while True:
-        status = get_status()
+        status = get_status(kernel)
         print(status)
         if "COMPLETE" in status.upper() or "ERROR" in status.upper():
             break

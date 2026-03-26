@@ -2,7 +2,7 @@ import json
 import os
 import random
 from pathlib import Path
-from datetime import datetime
+from datetime import datetime, UTC
 
 import cv2
 import librosa
@@ -267,7 +267,15 @@ def main():
     print("device:", device)
     if not torch.cuda.is_available():
         raise RuntimeError("GPU required for multimodal training, but CUDA is not available in this Kaggle run.")
-    run_id = datetime.utcnow().strftime("%Y%m%d_%H%M%S")
+    cap = torch.cuda.get_device_capability(0)
+    gpu_name = torch.cuda.get_device_name(0)
+    print("gpu_name:", gpu_name, "capability:", cap)
+    if cap[0] < 7:
+        raise RuntimeError(
+            f"Incompatible GPU '{gpu_name}' capability {cap}; this torch build requires sm_70+. "
+            "Relaunch kernel until T4/L4/A10 class GPU is assigned."
+        )
+    run_id = datetime.now(UTC).strftime("%Y%m%d_%H%M%S")
     run_dir = WORK / f"run_{run_id}"
     run_dir.mkdir(parents=True, exist_ok=True)
 
@@ -327,7 +335,7 @@ def main():
     metrics = {
         "run_id": run_id,
         "device": str(device),
-        "gpu_name": torch.cuda.get_device_name(0) if torch.cuda.is_available() else "cpu",
+        "gpu_name": gpu_name if torch.cuda.is_available() else "cpu",
         "accelerator_requested": "gpu",
         "audio_metrics": audio_metrics,
         "face_metrics": face_metrics,

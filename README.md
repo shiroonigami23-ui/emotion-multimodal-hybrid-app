@@ -35,13 +35,19 @@ Note: FER2013 folder labels are numeric (`0..6`) and are mapped internally to em
 Start long run without waiting:
 
 ```bash
-python scripts/start_kaggle_training.py
+python scripts/start_kaggle_training.py --owner aryanchande23l
 ```
 
 Check later (quick):
 
 ```bash
-python scripts/check_kaggle_status.py
+python scripts/check_kaggle_status.py --owner aryanchande23l
+```
+
+Auto-retry until compatible GPU allocation:
+
+```bash
+python scripts/relaunch_until_gpu_compatible.py --owner aryanchande23l --max-attempts 5
 ```
 
 When complete:
@@ -79,6 +85,14 @@ streamlit run app.py
 set HF_TOKEN=YOUR_TOKEN
 python scripts/publish_space.py --space-id ShiroOnigami23/emotion-multimodal-app
 ```
+
+## Android APK Release
+
+Android wrapper project is under `android_app/` and opens the deployed HF Space.
+
+- CI workflow: `.github/workflows/android-release.yml`
+- Trigger release by pushing a tag (example `v1.0.0`) or using workflow dispatch.
+- Signed APK is uploaded to GitHub Releases automatically.
 
 ## Safety Notice
 

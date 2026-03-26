@@ -15,3 +15,9 @@ kaggle_pull/
 *.log
 
 .DS_Store
+
+# Android/Gradle
+.gradle/
+build/
+android_app/build/
+local.properties
