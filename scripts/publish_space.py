@@ -8,11 +8,10 @@ from huggingface_hub import HfApi, create_repo
 
 
 SPACE_APP = r'''
-import json
+import gradio as gr
 import tempfile
 from pathlib import Path
 
-import gradio as gr
 from huggingface_hub import hf_hub_download, list_repo_files
 
 from src.mmemotion.infer import MultiModalEmotionEngine
@@ -36,26 +35,22 @@ def load_engine():
 
 ENGINE = load_engine()
 
-def run(audio_file, image_file, video_file):
+def run(video_file):
     if ENGINE is None:
         return {"status": "Model artifacts not uploaded yet. Training still running."}
-    ap = audio_file if audio_file else None
-    ip = image_file if image_file else None
-    vp = video_file if video_file else None
-    out = ENGINE.predict(ap, ip, vp)
-    return out
+    if not video_file:
+        return {"status": "Upload a video file first."}
+    return ENGINE.predict_from_video_hybrid(video_file)
 
-with gr.Blocks(title="Emotion Multimodal App") as demo:
-    gr.Markdown("# Emotion Multimodal App")
-    gr.Markdown("Audio + Face + Video hybrid emotion detector.")
-    gr.Markdown("Research tool only. Not a diagnostic/clinical decision system.")
+with gr.Blocks(title="Hybrid Emotion Detector") as demo:
+    gr.Markdown("# Hybrid Emotion Detector")
+    gr.Markdown("Upload one video. App uses audio + face + video models together from the same clip.")
+    gr.Markdown("Research tool only. Not a clinical/legal decision system.")
 
-    a = gr.Audio(type="filepath", label="Audio (.wav)")
-    i = gr.Image(type="filepath", label="Face Image")
     v = gr.Video(label="Video Clip")
-    btn = gr.Button("Run Multimodal Prediction", variant="primary")
+    btn = gr.Button("Run Unified Hybrid Detection", variant="primary")
     out = gr.JSON(label="Prediction")
-    btn.click(run, inputs=[a, i, v], outputs=[out])
+    btn.click(run, inputs=[v], outputs=[out])
 
 if __name__ == "__main__":
     demo.launch()
@@ -75,7 +70,7 @@ def main() -> None:
     api = HfApi(token=token)
 
     readme = """---
-title: Emotion Multimodal App
+title: Hybrid Emotion Detector
 emoji: 🎭
 colorFrom: blue
 colorTo: pink
@@ -85,9 +80,14 @@ app_file: app.py
 pinned: false
 ---
 
-# Emotion Multimodal App
+# Hybrid Emotion Detector
 
-Audio + face + video hybrid emotion detection.
+Single-video multimodal emotion detection:
+- audio branch from video audio track
+- face branch from extracted key frame
+- video temporal branch
+
+All three branches fuse into one final emotion result.
 """
 
     tmp = Path("artifacts/space_tmp")
@@ -95,7 +95,7 @@ Audio + face + video hybrid emotion detection.
     (tmp / "README.md").write_text(readme, encoding="utf-8")
     (tmp / "app.py").write_text(SPACE_APP, encoding="utf-8")
     (tmp / "requirements.txt").write_text(
-        "gradio\ntorch\ntorchvision\ntorchaudio\nnumpy\nopencv-python-headless\nlibrosa\nhuggingface_hub\n",
+        "gradio\ntorch\ntorchvision\ntorchaudio\nnumpy\nopencv-python-headless\nlibrosa\nhuggingface_hub\nimageio-ffmpeg\n",
         encoding="utf-8",
     )
     src_dir = tmp / "src" / "mmemotion"

@@ -7,13 +7,13 @@ New standalone project built from your voice-emotion baseline concept, without m
 
 ## Goal
 
-Hybrid emotion detection with three modalities:
+Unified hybrid emotion detection with three modalities from one video clip:
 
-1. Audio speech signal
-2. Face image expression
-3. Video clip (frame-level temporal model)
+1. Audio signal extracted from video
+2. Face expression from key frame extraction
+3. Temporal video branch (frame sequence)
 
-Final output is fused across available modalities.
+Final output is one fused emotion prediction from all three models working together.
 
 Emotion classes (expanded): `angry, calm, disgust, fear, happy, neutral, sad, surprise`
 

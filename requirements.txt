@@ -10,3 +10,4 @@ soundfile>=0.12.1
 huggingface_hub>=0.30.0
 scikit-learn>=1.5.0
 kaggle>=2.0.0
+imageio-ffmpeg>=0.5.1

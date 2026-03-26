@@ -1,9 +1,12 @@
 from __future__ import annotations
 
 import json
+import subprocess
+import tempfile
 from pathlib import Path
 
 import cv2
+import imageio_ffmpeg
 import librosa
 import numpy as np
 import torch
@@ -71,6 +74,38 @@ class MultiModalEmotionEngine:
         with torch.no_grad():
             return self.video_model(x)[0]
 
+    def _extract_middle_frame(self, video_path: str) -> str:
+        cap = cv2.VideoCapture(video_path)
+        total = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+        mid = max(total // 2, 0)
+        cap.set(cv2.CAP_PROP_POS_FRAMES, mid)
+        ok, frame = cap.read()
+        cap.release()
+        if not ok or frame is None:
+            raise RuntimeError("Could not decode frame from video")
+        out_path = Path(tempfile.mkstemp(suffix=".jpg")[1])
+        cv2.imwrite(str(out_path), frame)
+        return str(out_path)
+
+    def _extract_audio_from_video(self, video_path: str) -> str:
+        out_path = Path(tempfile.mkstemp(suffix=".wav")[1])
+        ffmpeg = imageio_ffmpeg.get_ffmpeg_exe()
+        cmd = [
+            ffmpeg,
+            "-y",
+            "-i",
+            video_path,
+            "-ac",
+            "1",
+            "-ar",
+            "16000",
+            str(out_path),
+        ]
+        cp = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        if cp.returncode != 0:
+            raise RuntimeError("Audio extraction from video failed")
+        return str(out_path)
+
     def predict(self, audio_path: str | None, image_path: str | None, video_path: str | None):
         probs = []
         branch = {}
@@ -101,3 +136,11 @@ class MultiModalEmotionEngine:
             "fusion_probs": {self.labels[i]: float(fused[i]) for i in range(len(self.labels))},
             "branch_probs": branch,
         }
+
+    def predict_from_video_hybrid(self, video_path: str):
+        audio_path = self._extract_audio_from_video(video_path)
+        image_path = self._extract_middle_frame(video_path)
+        out = self.predict(audio_path=audio_path, image_path=image_path, video_path=video_path)
+        out["mode"] = "video_hybrid_unified"
+        out["used_modalities"] = ["audio_from_video", "face_from_video_frame", "video_temporal"]
+        return out
