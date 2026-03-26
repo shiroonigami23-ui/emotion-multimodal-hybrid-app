@@ -9,6 +9,7 @@ from huggingface_hub import HfApi, create_repo
 
 SPACE_APP = r'''
 import gradio as gr
+import os
 import tempfile
 from pathlib import Path
 
@@ -20,14 +21,15 @@ MODEL_REPO = "ShiroOnigami23/emotion-multimodal-engine"
 
 def load_engine():
     try:
-        files = list_repo_files(MODEL_REPO)
+        token = os.environ.get("HF_TOKEN", "")
+        files = list_repo_files(MODEL_REPO, token=token or None)
         required = ["audio_model.pt", "face_model.pt", "video_model.pt", "fusion_config.json"]
         for f in required:
             if f not in files:
                 return None
         local = Path(tempfile.mkdtemp(prefix="mmemotion_"))
         for f in required:
-            p = hf_hub_download(repo_id=MODEL_REPO, filename=f)
+            p = hf_hub_download(repo_id=MODEL_REPO, filename=f, token=token or None)
             (local / f).write_bytes(Path(p).read_bytes())
         return MultiModalEmotionEngine(str(local))
     except Exception:
@@ -54,6 +56,7 @@ with gr.Blocks(title="Hybrid Emotion Detector") as demo:
 
 if __name__ == "__main__":
     # Disable experimental SSR in HF Spaces to avoid asyncio FD warnings at shutdown.
+    os.environ["GRADIO_SSR_MODE"] = "false"
     demo.launch(ssr_mode=False)
 '''
 

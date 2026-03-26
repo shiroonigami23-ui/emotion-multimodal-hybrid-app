@@ -26,8 +26,9 @@ class MultiModalEmotionEngine:
         n = len(self.labels)
 
         self.audio_model = AudioCNN(n).to(self.device).eval()
-        self.face_model = build_face_model(n).to(self.device).eval()
-        self.video_model = build_video_model(n).to(self.device).eval()
+        # Inference loads fully trained checkpoints; no external pretrained download needed.
+        self.face_model = build_face_model(n, pretrained=False).to(self.device).eval()
+        self.video_model = build_video_model(n, pretrained=False).to(self.device).eval()
 
         self.audio_model.load_state_dict(torch.load(self.artifact_dir / "audio_model.pt", map_location=self.device))
         self.face_model.load_state_dict(torch.load(self.artifact_dir / "face_model.pt", map_location=self.device))
