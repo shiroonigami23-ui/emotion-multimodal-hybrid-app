@@ -1,0 +1,20 @@
+{
+  "id": "aryansingh21fd/emotion-multimodal-hybrid-trainer-v1",
+  "title": "Emotion Multimodal Hybrid Trainer V1",
+  "code_file": "train_multimodal.py",
+  "language": "python",
+  "kernel_type": "script",
+  "is_private": "true",
+  "enable_gpu": "true",
+  "enable_tpu": "false",
+  "enable_internet": "true",
+  "dataset_sources": [
+    "uwrfkaggler/ravdess-emotional-speech-audio",
+    "ejlok1/cremad",
+    "adrivg/ravdess-emotional-speech-video",
+    "astraszab/facial-expression-dataset-image-folders-fer2013"
+  ],
+  "competition_sources": [],
+  "kernel_sources": [],
+  "model_sources": []
+}

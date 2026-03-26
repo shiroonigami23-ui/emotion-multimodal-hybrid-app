@@ -1,0 +1,17 @@
+__pycache__/
+*.pyc
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+
+artifacts/
+outputs/
+kaggle_pull/
+
+*.pt
+*.pth
+*.joblib
+*.log
+
+.DS_Store

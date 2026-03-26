@@ -1,0 +1,12 @@
+streamlit>=1.37.0
+torch>=2.3.0
+torchvision>=0.18.0
+torchaudio>=2.3.0
+numpy>=1.26.0
+pandas>=2.2.0
+opencv-python-headless>=4.10.0.84
+librosa>=0.10.2
+soundfile>=0.12.1
+huggingface_hub>=0.30.0
+scikit-learn>=1.5.0
+kaggle>=2.0.0
