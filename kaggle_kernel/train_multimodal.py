@@ -40,6 +40,22 @@ CODE_MAP = {
     "07": "disgust",
     "08": "surprise",
 }
+FACE_CLASS_MAP = {
+    "0": "angry",
+    "1": "disgust",
+    "2": "fear",
+    "3": "happy",
+    "4": "sad",
+    "5": "surprise",
+    "6": "neutral",
+    "angry": "angry",
+    "disgust": "disgust",
+    "fear": "fear",
+    "happy": "happy",
+    "sad": "sad",
+    "surprise": "surprise",
+    "neutral": "neutral",
+}
 
 
 class AudioCNN(nn.Module):
@@ -233,9 +249,16 @@ def gather_face_pairs(max_items=6000):
     images = scan_files(str(ROOT), (".jpg", ".jpeg", ".png"))
     pairs = []
     for p in images:
-        parent = Path(p).parent.name.lower()
-        if parent in EMOTIONS:
-            pairs.append((p, emotion_to_idx(parent)))
+        parts = [x.lower() for x in Path(p).parts]
+        mapped = None
+        for token in reversed(parts):
+            if token in FACE_CLASS_MAP:
+                mapped = FACE_CLASS_MAP[token]
+                break
+        if mapped in EMOTIONS:
+            pairs.append((p, emotion_to_idx(mapped)))
+            if mapped == "neutral":
+                pairs.append((p, emotion_to_idx("calm")))
     return pairs[:max_items]
 
 

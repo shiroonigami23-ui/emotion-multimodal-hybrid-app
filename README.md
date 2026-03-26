@@ -28,6 +28,8 @@ Datasets used:
 - `adrivg/ravdess-emotional-speech-video`
 - `astraszab/facial-expression-dataset-image-folders-fer2013`
 
+Note: FER2013 folder labels are numeric (`0..6`) and are mapped internally to emotion classes.
+
 ### Run
 
 Start long run without waiting:
