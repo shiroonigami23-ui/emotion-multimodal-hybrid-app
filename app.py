@@ -17,16 +17,19 @@ MODEL_REPO = "ShiroOnigami23/emotion-multimodal-engine"
 
 @st.cache_resource
 def load_engine():
-    files = list_repo_files(MODEL_REPO)
-    required = ["audio_model.pt", "face_model.pt", "video_model.pt", "fusion_config.json"]
-    for f in required:
-        if f not in files:
-            raise RuntimeError(f"Missing {f} in {MODEL_REPO}")
-    local = Path(tempfile.mkdtemp(prefix="mmemotion_"))
-    for f in required:
-        p = hf_hub_download(repo_id=MODEL_REPO, filename=f)
-        (local / f).write_bytes(Path(p).read_bytes())
-    return MultiModalEmotionEngine(str(local))
+    try:
+        files = list_repo_files(MODEL_REPO)
+        required = ["audio_model.pt", "face_model.pt", "video_model.pt", "fusion_config.json"]
+        for f in required:
+            if f not in files:
+                return None
+        local = Path(tempfile.mkdtemp(prefix="mmemotion_"))
+        for f in required:
+            p = hf_hub_download(repo_id=MODEL_REPO, filename=f)
+            (local / f).write_bytes(Path(p).read_bytes())
+        return MultiModalEmotionEngine(str(local))
+    except Exception:
+        return None
 
 
 st.title("🎭 Multimodal Emotion Engine")
@@ -54,6 +57,9 @@ def _persist_upload(upload, suffix: str):
 
 
 if run:
+    if engine is None:
+        st.warning("Model artifacts are not uploaded yet. Training is still running. Please try again later.")
+        st.stop()
     try:
         ap = _persist_upload(audio_file, ".wav") if audio_file else None
         ip = _persist_upload(image_file, ".png") if image_file else None
