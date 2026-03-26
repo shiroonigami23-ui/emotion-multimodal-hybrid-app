@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Emotion Multimodal</string>
+    <string name="loading_title">Emotion Multimodal</string>
+    <string name="loading_subtitle">Loading hybrid detector and secure session...</string>
+    <string name="choose_file">Select media file</string>
 </resources>

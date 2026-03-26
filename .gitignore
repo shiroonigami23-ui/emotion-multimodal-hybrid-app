@@ -21,3 +21,4 @@ kaggle_pull/
 build/
 android_app/build/
 local.properties
+release.keystore
