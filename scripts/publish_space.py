@@ -53,7 +53,8 @@ with gr.Blocks(title="Hybrid Emotion Detector") as demo:
     btn.click(run, inputs=[v], outputs=[out])
 
 if __name__ == "__main__":
-    demo.launch()
+    # Disable experimental SSR in HF Spaces to avoid asyncio FD warnings at shutdown.
+    demo.launch(ssr_mode=False)
 '''
 
 
