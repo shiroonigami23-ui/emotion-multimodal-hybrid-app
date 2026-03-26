@@ -2,7 +2,7 @@ import subprocess
 import time
 
 
-KERNEL = "aryansingh21fd/emotion-multimodal-hybrid-trainer-v1"
+KERNEL = "aryanchande23l/emotion-multimodal-hybrid-trainer-v1"
 
 
 def get_status() -> str:

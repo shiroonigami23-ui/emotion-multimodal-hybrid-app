@@ -209,7 +209,7 @@ def train_branch(model, train_loader, val_loader, device, epochs=1, lr=3e-4):
     return model, best
 
 
-def gather_audio_pairs(max_items=5000):
+def gather_audio_pairs(max_items=3500):
     wavs = scan_files(str(ROOT), (".wav",))
     pairs = []
     for p in wavs:
@@ -219,7 +219,7 @@ def gather_audio_pairs(max_items=5000):
     return pairs[:max_items]
 
 
-def gather_video_pairs(max_items=2000):
+def gather_video_pairs(max_items=1200):
     vids = scan_files(str(ROOT), (".mp4", ".avi", ".mov"))
     pairs = []
     for p in vids:
@@ -229,7 +229,7 @@ def gather_video_pairs(max_items=2000):
     return pairs[:max_items]
 
 
-def gather_face_pairs(max_items=8000):
+def gather_face_pairs(max_items=6000):
     images = scan_files(str(ROOT), (".jpg", ".jpeg", ".png"))
     pairs = []
     for p in images:
@@ -242,6 +242,8 @@ def gather_face_pairs(max_items=8000):
 def main():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print("device:", device)
+    if not torch.cuda.is_available():
+        raise RuntimeError("GPU required for multimodal training, but CUDA is not available in this Kaggle run.")
     run_id = datetime.utcnow().strftime("%Y%m%d_%H%M%S")
     run_dir = WORK / f"run_{run_id}"
     run_dir.mkdir(parents=True, exist_ok=True)

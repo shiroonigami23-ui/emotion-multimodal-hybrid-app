@@ -45,7 +45,7 @@ python scripts/check_kaggle_status.py
 When complete:
 
 ```bash
-kaggle kernels output aryansingh21fd/emotion-multimodal-hybrid-trainer-v1 -p kaggle_pull
+kaggle kernels output aryanchande23l/emotion-multimodal-hybrid-trainer-v1 -p kaggle_pull
 ```
 
 Expected outputs:
