@@ -15,6 +15,8 @@ Hybrid emotion detection with three modalities:
 
 Final output is fused across available modalities.
 
+Emotion classes (expanded): `angry, calm, disgust, fear, happy, neutral, sad, surprise`
+
 ## Training (Kaggle)
 
 Kernel path: `kaggle_kernel/`
@@ -28,9 +30,21 @@ Datasets used:
 
 ### Run
 
+Start long run without waiting:
+
 ```bash
-kaggle kernels push -p kaggle_kernel
-python scripts/wait_kaggle_kernel.py
+python scripts/start_kaggle_training.py
+```
+
+Check later (quick):
+
+```bash
+python scripts/check_kaggle_status.py
+```
+
+When complete:
+
+```bash
 kaggle kernels output aryansingh21fd/emotion-multimodal-hybrid-trainer-v1 -p kaggle_pull
 ```
 
@@ -41,6 +55,7 @@ Expected outputs:
 - `video_model.pt`
 - `fusion_config.json`
 - `metrics.json`
+- `run_version.json`
 
 ## Upload Model to Hugging Face
 

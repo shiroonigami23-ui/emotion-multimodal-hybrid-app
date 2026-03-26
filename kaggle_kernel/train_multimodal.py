@@ -2,6 +2,7 @@ import json
 import os
 import random
 from pathlib import Path
+from datetime import datetime
 
 import cv2
 import librosa
@@ -21,22 +22,23 @@ SEED = 42
 random.seed(SEED)
 np.random.seed(SEED)
 torch.manual_seed(SEED)
-EMOTIONS = ["angry", "disgust", "fear", "happy", "neutral", "sad"]
+EMOTIONS = ["angry", "calm", "disgust", "fear", "happy", "neutral", "sad", "surprise"]
 CODE_MAP = {
     "ANG": "angry",
+    "CAL": "calm",
     "DIS": "disgust",
     "FEA": "fear",
     "HAP": "happy",
     "NEU": "neutral",
     "SAD": "sad",
     "01": "neutral",
-    "02": "neutral",
+    "02": "calm",
     "03": "happy",
     "04": "sad",
     "05": "angry",
     "06": "fear",
     "07": "disgust",
-    "08": "neutral",
+    "08": "surprise",
 }
 
 
@@ -240,6 +242,9 @@ def gather_face_pairs(max_items=8000):
 def main():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print("device:", device)
+    run_id = datetime.utcnow().strftime("%Y%m%d_%H%M%S")
+    run_dir = WORK / f"run_{run_id}"
+    run_dir.mkdir(parents=True, exist_ok=True)
 
     audio_pairs = gather_audio_pairs()
     face_pairs = gather_face_pairs()
@@ -285,13 +290,20 @@ def main():
     torch.save(audio_model.state_dict(), WORK / "audio_model.pt")
     torch.save(face_model.state_dict(), WORK / "face_model.pt")
     torch.save(video_model.state_dict(), WORK / "video_model.pt")
+    torch.save(audio_model.state_dict(), run_dir / "audio_model.pt")
+    torch.save(face_model.state_dict(), run_dir / "face_model.pt")
+    torch.save(video_model.state_dict(), run_dir / "video_model.pt")
 
     fusion_weights = {"audio": 0.4, "face": 0.3, "video": 0.3}
     config = {"labels": EMOTIONS, "fusion_weights": fusion_weights}
     (WORK / "fusion_config.json").write_text(json.dumps(config, indent=2), encoding="utf-8")
+    (run_dir / "fusion_config.json").write_text(json.dumps(config, indent=2), encoding="utf-8")
 
     metrics = {
+        "run_id": run_id,
         "device": str(device),
+        "gpu_name": torch.cuda.get_device_name(0) if torch.cuda.is_available() else "cpu",
+        "accelerator_requested": "gpu",
         "audio_metrics": audio_metrics,
         "face_metrics": face_metrics,
         "video_metrics": video_metrics,
@@ -302,6 +314,8 @@ def main():
         },
     }
     (WORK / "metrics.json").write_text(json.dumps(metrics, indent=2), encoding="utf-8")
+    (run_dir / "metrics.json").write_text(json.dumps(metrics, indent=2), encoding="utf-8")
+    (WORK / "run_version.json").write_text(json.dumps({"run_id": run_id, "path": str(run_dir)}, indent=2), encoding="utf-8")
     print(json.dumps(metrics, indent=2))
 
 

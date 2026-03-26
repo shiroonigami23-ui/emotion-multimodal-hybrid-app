@@ -4,22 +4,23 @@ import os
 from pathlib import Path
 
 
-EMOTIONS = ["angry", "disgust", "fear", "happy", "neutral", "sad"]
+EMOTIONS = ["angry", "calm", "disgust", "fear", "happy", "neutral", "sad", "surprise"]
 CODE_MAP = {
     "ANG": "angry",
+    "CAL": "calm",
     "DIS": "disgust",
     "FEA": "fear",
     "HAP": "happy",
     "NEU": "neutral",
     "SAD": "sad",
     "01": "neutral",
-    "02": "neutral",
+    "02": "calm",
     "03": "happy",
     "04": "sad",
     "05": "angry",
     "06": "fear",
     "07": "disgust",
-    "08": "neutral",
+    "08": "surprise",
 }
 
 
