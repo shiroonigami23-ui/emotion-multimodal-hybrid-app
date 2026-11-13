@@ -1,5 +1,7 @@
 <div align="center">
 
+<img src="assets/hero.png" alt="Emotion Multimodal Hybrid" width="100%">
+
 # 🎭 Emotion Multimodal Hybrid
 
 ### One video clip, three models — voice, face and motion fused into a single emotion prediction
