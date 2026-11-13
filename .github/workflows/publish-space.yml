@@ -8,6 +8,8 @@ on:
 jobs:
   publish:
     runs-on: ubuntu-latest
+    env:
+      HF_TOKEN: ${{ secrets.HF_TOKEN }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -23,7 +25,6 @@ jobs:
           pip install huggingface_hub
 
       - name: Publish Space
-        env:
-          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        if: ${{ env.HF_TOKEN != '' }}
         run: |
           python scripts/publish_space.py --space-id ShiroOnigami23/emotion-multimodal-app
