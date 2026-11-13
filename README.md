@@ -16,14 +16,6 @@
 
 ---
 
-## 📸 Preview
-
-<p align="center">
-  <img src="assets/icon-audio.svg" alt="preview" width="45%">
-  <img src="assets/icon-face.svg" alt="preview" width="45%">
-  <img src="assets/icon-video.svg" alt="preview" width="45%">
-</p>
-
 ## 📖 Overview
 
 This project detects emotion from a **single video clip** by combining three independent models:
